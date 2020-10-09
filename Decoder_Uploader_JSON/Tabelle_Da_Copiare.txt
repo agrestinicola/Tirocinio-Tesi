@@ -1,0 +1,29 @@
+cursore.execute('''DROP TABLE IF EXISTS creates;
+                           CREATE TABLE creates(
+                               user_id VARCHAR REFERENCES utente,
+                               status_id VARCHAR REFERENCES tweet,
+                               type TYPETWEET NOT NULL,
+                               reply_to_status_id VARCHAR,
+                               reply_to_user_id VARCHAR,
+                               PRIMARY KEY (user_id, status_id)
+                            );''')
+                        
+INSERT INTO creates (user_id, status_id, type, reply_to_status_id, reply_to_user_id)
+
+cursore.execute('''DROP TABLE IF EXISTS utente;
+                           CREATE TABLE utente(
+                               user_id VARCHAR PRIMARY KEY CHECK (user_id <> ''),
+                               screen_name VARCHAR NOT NULL CHECK (screen_name <> '')
+                            );''')
+
+INSERT INTO utente (user_id, screen_name)
+
+cursore.execute('''DROP TABLE IF EXISTS tweet;
+                           CREATE TABLE tweet(
+                               status_id VARCHAR PRIMARY KEY CHECK (status_id <> ''),
+                               text VARCHAR NOT NULL CHECK (text <> ''),
+                               created_at TIMESTAMP NOT NULL CHECK (created_at <= CURRENT_TIMESTAMP),
+                               retweet_count INTEGER CHECK (retweet_count >= 0)
+                            );''')
+
+INSERT INTO tweet (status_id, text, created_at, retweet_count)
